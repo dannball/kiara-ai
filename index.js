@@ -1,61 +1,44 @@
 process.on("uncaughtException", console.log);
-require('./lib/call-db');
+
 require('dotenv/config');
-const { makeWASocket, DisconnectReason, useMultiFileAuthState, delay } = require('baileys');
-const { handlerMessage } = require("./handler");
-const { Boom } = require("@hapi/boom");
-const pino = require("pino");
-const { numberBot } = require('./config.js');
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const bodyParser = require('body-parser');
 
-const logger = pino({ level: "silent" });
+global.dann = {};
 
-async function connectionupdate(update, dann) {
-    const { connection, lastDisconnect } = update
-    if(connection === 'close') {
-        const statusCode = new Boom(lastDisconnect.error).output?.statusCode;
-        if (statusCode === DisconnectReason.loggedOut || statusCode === DisconnectReason.forbidden) {
-            console.log("Bot Turu...");
-        } else if (statusCode === DisconnectReason.connectionClosed || statusCode === DisconnectReason.connectionReplaced || statusCode === DisconnectReason.connectionLost || statusCode === DisconnectReason.unavailableService || statusCode === DisconnectReason.badSession || statusCode === DisconnectReason.multideviceMismatch) {
-            try {
-                await dann.ev.removeAllListeners();
-            } catch (error) {};
-            main();
-            console.log("Bot berak bentar...");
-        } else if (statusCode === DisconnectReason.restartRequired) {
-            await dann.ev.removeAllListeners();
-            main();
-            console.log("Waiting, bot di segerin...");
+const bot = require('./lib/bot');
+const api = require('./lib/api');
+
+const app = express();
+
+const basePathHTML = path.join(__dirname, 'public/html');
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public/js')));
+app.use(express.static(path.join(__dirname, 'public/assets')));
+app.use(express.static(path.join(__dirname, 'public/css')));
+
+app.get('*', (req, res, next) => {
+    let { authKey } = req.query;
+    if (req.path.startsWith('/api') && !authKey) return next()
+    const requestedPath = req.path === '/' ? 'index.html' : req.path + '.html';
+    const filePath = path.join(basePathHTML, requestedPath)
+    fs.access(filePath, (err) => {
+        if (err) {
+            console.log(`Ngga ada filenya tot!! : ${requestedPath}`);
+            return next();
         }
-    } else if(connection === 'open') {
-        console.log('Bot udah ready...');
-    }
-}
-
-async function main() {
-    const { state, saveCreds } = await useMultiFileAuthState('dann');
-    const dann = makeWASocket({
-        logger,
-        qrTimeout: 240_000,
-        syncFullHistory: false,
-        printQRInTerminal: false,
-        markOnlineOnConnect: true,
-        keepAliveIntervalMs: 30_000,
-        auth: state,
+        res.sendFile(filePath);
     });
+});
 
-    delay(4000).then(async () => {
-            if (!dann.authState?.creds?.registered) {
-                await dann.requestPairingCode(numberBot).then(res => {
-                console.log(res);
-            })
-        }
-    });
+app.post('/api/:type?/:cmd?/:id?', api);
 
-    dann.ev.on('creds.update', saveCreds);
-    dann.ev.on('connection.update', (update) => connectionupdate(update, dann));
-    dann.ev.on('messages.upsert', (update) => handlerMessage(update, dann));
-}
+app.get('*', (_,r) => r.status(404).sendFile(path.join(basePathHTML, '404.html')));
 
-main();
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`The server is now running in PORT ${process.env.PORT || 3000}`);
+});
 
-// console.log(DisconnectReason)
+// bot(1);

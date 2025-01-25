@@ -15,9 +15,15 @@
   "author": "awik",
   "license": "MIT",
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "axios": "^1.7.7",
     "baileys": "^6.7.8",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
-    "nodemon": "^3.1.7"
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0",
+    "nodemon": "^3.1.9",
+    "sequelize": "^6.37.5"
   }
 }

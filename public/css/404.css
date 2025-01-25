@@ -1,0 +1,49 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #e0f7fa, #ffecb3); /* Gradasi biru muda ke emas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Mengatur tinggi viewport */
+    text-align: center; /* Menyelaraskan teks ke tengah */
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 5em; /* Ukuran font untuk kode 404 */
+    color: #ffb300; /* Warna emas */
+    margin: 0; /* Menghapus margin default */
+}
+
+h2 {
+    font-size: 2em; /* Ukuran font untuk judul */
+    color: #4fc3f7; /* Warna biru */
+    margin: 10px 0; /* Margin atas dan bawah */
+}
+
+p {
+    color: #333; /* Warna teks untuk deskripsi */
+    margin: 20px 0; /* Margin atas dan bawah */
+}
+
+.back-button {
+    display: inline-block; /* Menjadikan tautan sebagai blok inline */
+    background-color: #4fc3f7; /* Warna biru */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none; /* Menghapus garis bawah */
+    transition: background-color 0.3s; /* Efek transisi */
+}
+
+.back-button:hover {
+    background-color: #29b6f6; /* Warna biru lebih gelap saat hover */
+}

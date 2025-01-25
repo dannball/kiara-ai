@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Kiara</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard.css"> <!-- Menghubungkan file CSS untuk dashboard -->
+</head>
+
+<body>
+
+  <header>
+    <h1>Dashboard Kiara</h1>
+    <div class="auth-buttons">
+      <button onclick="window.location.href='/logout'">Logout</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>Jadwal Anda</h2>
+    <div class="date-time">
+      <span id="current-date"></span>
+      <span id="current-time"></span>
+    </div>
+    <div class="schedule-section">
+      <div class="manual-schedule">
+        <h3>Jadwal Manual</h3>
+        <ul id="manual-schedule-list">
+          <!-- Daftar jadwal manual akan ditambahkan di sini -->
+        </ul>
+        <input type="text" id="manual-schedule-input" placeholder="Tambah jadwal manual...">
+        <button onclick="addManualSchedule()">Tambah</button>
+      </div>
+      <div class="ai-schedule">
+        <h3>Jadwal AI</h3>
+        <ul>
+          <li>
+            <span>Meeting dengan Klien - 1:00 PM</span>
+            <button class="reminder-button">Atur Pengingat</button>
+          </li>
+          <li>
+            <span>Review Kinerja - 4:00 PM</span>
+            <button class="reminder-button">Atur Pengingat</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Kiara - Bot Asisten WhatsApp. Semua hak dilindungi.</p>
+  </footer>
+
+  <script src="/dashboard.js"></script> <!-- Menghubungkan file JavaScript untuk dashboard -->
+</body>
+
+</html>
