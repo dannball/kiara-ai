@@ -2,23 +2,25 @@ const { Op } = require('sequelize');
 const { User, Auth, Verify } = require('../database');
 const bcrypt = require('bcrypt');
 const { kirimPesan } = require('../lib/mailer');
+const authMiddleware = require('../lib/middlewares/auth');
 
 module.exports = async (req, res, next) => {
     try {
         let { params, body } = req;
         if (!body) return next();
         let command = `${params.type}:${params.cmd}`;
-        let data = null, message = "Success";
+        let data = null;
 
         switch (command) {
 
             case "auth:verify": {
-                let { otp, email } = body;
+                await authMiddleware(req);
+                let { otp } = body;
                 if (!otp || otp.length !== 6) throw new Error("OTP tidak valid!");
-                if (!email) throw new Error("Email tidak boleh kosong!");
+                if (!req.user) throw new Error("User tidak ditemukan!"); 
+                let user = req.user;
+                if (!user.email) throw new Error("Email tidak boleh kosong!");
 
-                const user = await User.findOne({ where: { email }, attributes: ["id", "email", "is_verify"] });
-                if (!user) throw new Error("Email tidak terdaftar!");
                 if (user.is_verify) throw new Error("Email sudah diverifikasi!");
 
                 const resultOtp = await Verify.findOne({
@@ -30,9 +32,10 @@ module.exports = async (req, res, next) => {
                         }
                     }
                 });
-
+                
                 if (!resultOtp) throw new Error("OTP salah atau telah kedaluwarsa!");
-
+                
+                user = await User.findOne({ where: { id: user.id }, attributes: ["id", "is_verify"] });
                 user.is_verify = true;
                 await user.save();
 
@@ -68,9 +71,6 @@ module.exports = async (req, res, next) => {
 
                     // Kirim email kode verifikasi (asumsikan kamu punya function kirimEmail)
                     await kirimPesan(user.email, "Kode Verifikasi Akun", `Kode verifikasi kamu adalah: ${code}. Berlaku selama 15 menit.`);
-
-                    // Lempar error khusus untuk frontend redirect ke /auth/verify
-                    throw new Error('EMAIL_NOT_VERIFIED');
                 }
 
                 // Lanjut login
@@ -95,7 +95,7 @@ module.exports = async (req, res, next) => {
                     validity_data: JSON.stringify({ useragent })
                 });
 
-                data = auth.key;
+                data = { auth: auth.key, is_verify: user.is_verify };
 
                 function generateRandomId(length) {
                     return `KIARA_${Math.random().toString(36).substring(2, length + 90)}`;
@@ -142,15 +142,15 @@ module.exports = async (req, res, next) => {
             default:
                 throw new Error("API tidak ada! (404)");
         }
-        return res.status(200).json({ error: false, code: 200, message, data });
+        return res.status(200).json({ data });
     } catch (error) {
         if (typeof error?.message === "string" || typeof error === "string") {
             error = error.message || error;
             let matchCode = parseInt(error.match(/\(\s*(\d+)\s*\)/)?.[1]) || 400;
             if (/(jwt|expired|malformed)/gi.test(error)) matchCode = 401;
-            res.status(matchCode).json({ error: true, code: matchCode, message: error })
+            res.status(matchCode).json({ error: error })
         } else {
-            res.status(500).json({ error: true, code: 500, message: "Internal server error!" })
+            res.status(500).json({ error: "Internal server error!" })
         }
         console.log(error);
     }

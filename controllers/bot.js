@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
         // if (!apikey) return next();
         if (!body) return next();
         let command = `${params.type}:${params.cmd}`;
-        let data = null, message = "Success";
+        let data = null;
 
         switch (command) {
 
@@ -65,15 +65,15 @@ module.exports = async (req, res, next) => {
             default:
                 throw new Error("API tidak ada! (404)");
         }
-        return res.status(200).json({ error: false, code: 200, message, data });
+        return res.status(200).json({ data });
     } catch (error) {
         if (typeof error?.message === "string" || typeof error === "string") {
             error = error.message || error;
             let matchCode = parseInt(error.match(/\(\s*(\d+)\s*\)/)?.[1]) || 400;
             if (/(jwt|expired|malformed)/gi.test(error)) matchCode = 401;
-            res.status(matchCode).json({ error: true, code: matchCode, message: error })
+            res.status(matchCode).json({ error: error })
         } else {
-            res.status(500).json({ error: true, code: 500, message: "Internal server error!" })
+            res.status(500).json({ error: "Internal server error!" })
         }
         console.log(error);
     }
