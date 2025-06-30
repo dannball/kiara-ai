@@ -52,7 +52,7 @@ UserVoucher.init({
     sequelize,
 })
 
-exports = {
+module.exports = {
     Voucher,
     UserVoucher,
 }

@@ -56,7 +56,7 @@ RuleToken.init({
     sequelize,
 })
 
-exports = {
+module.exports = {
     Token,
     RuleToken,
 }
