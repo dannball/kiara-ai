@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../lib/connection');
+const sequelize = require('../lib/connection-db');
 class Session extends Model {};
 
 Session.init({
