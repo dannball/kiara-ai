@@ -26,8 +26,6 @@ Package.init({
     },
     description: {
         type: DataTypes.TEXT('long'),
-        defaultValue: '',
-        allowNull: false,
     }
 }, {
     modelName: 'packages',

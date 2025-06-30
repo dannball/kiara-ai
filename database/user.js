@@ -25,6 +25,11 @@ User.init({
         allowNull: false,
         defaultValue: 'user'
     },
+    is_verify: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
     sender: {
         type: DataTypes.STRING,
         allowNull: false,

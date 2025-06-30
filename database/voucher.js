@@ -45,7 +45,20 @@ UserVoucher.init({
         autoIncrement: true,
         primaryKey: true,
     },
-
+    user_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'users',
+            key: 'id',
+        }
+    },
+    voucher_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'vouchers',
+            key: 'id',
+        }
+    }
 }, {
     modelName: 'user_vouchers',
     timestamps: true,
