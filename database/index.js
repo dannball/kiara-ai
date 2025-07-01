@@ -8,6 +8,7 @@ const { UserVoucher, Voucher } = require('./voucher');
 const { Auth } = require('./auth');
 const { Verify } = require('./verify');
 const { Mutation } = require('./mutation');
+const { Chat } = require('./chat');
 
 System.hasMany(Session, { foreignKey: 'system_id', onDelete: 'CASCADE' });
 Session.belongsTo(System, { foreignKey: 'system_id', onDelete: 'CASCADE' });
@@ -27,8 +28,14 @@ Auth.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 System.hasMany(Schedule, { foreignKey: 'system_id', onDelete: 'CASCADE' });
 Schedule.belongsTo(System, { foreignKey: 'system_id', onDelete: 'CASCADE' });
 
+System.hasMany(Chat, { foreignKey: 'system_id', onDelete: 'CASCADE' });
+Chat.belongsTo(System, { foreignKey: 'system_id', onDelete: 'CASCADE' });
+
 User.hasMany(Token, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 Token.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+
+User.hasMany(Chat, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+Chat.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 
 Voucher.hasMany(UserVoucher, { foreignKey: 'voucher_id', onDelete: 'CASCADE' });
 UserVoucher.belongsTo(Voucher, { foreignKey: 'voucher_id', onDelete: 'CASCADE' });

@@ -13,12 +13,21 @@ module.exports = async (req, res, next) => {
 
         switch (command) {
 
-            case 'token:add': {
+            case 'token:increment': {
                 await authMiddleware(req, ['dev']);
                 let { userId, amountToken } = body;
                 if (isNaN(userId)) throw new Error("user Id diperlukan!");
                 let user = await User.findByPk(userId, { attributes: ["id"] });
                 await Token.create({ user_id: user.id, amount: amountToken, is_add: true });
+                data = { isAdded: true, userId, amountToken };
+            } break;
+
+            case 'token:decrement': {
+                await authMiddleware(req, ['dev']);
+                let { userId, amountToken } = body;
+                if (isNaN(userId)) throw new Error("user Id diperlukan!");
+                let user = await User.findByPk(userId, { attributes: ["id"] });
+                await Token.create({ user_id: user.id, amount: amountToken, is_add: false });
                 data = { isAdded: true, userId, amountToken };
             } break;
 
@@ -47,7 +56,7 @@ module.exports = async (req, res, next) => {
                 const basePrice = _package.price * amount;
                 const discount = voucher ? voucher.discount : 0;
                 const finalPrice = Math.max(basePrice - discount, 0);
-            
+
                 const reffId = `KIARA-${Date.now()}-${Math.floor(Math.random() * 9999)}`;
 
                 const transaction = await Mutation.create({
