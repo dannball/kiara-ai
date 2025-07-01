@@ -51,6 +51,7 @@ UserVoucher.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' })
 
 module.exports = {
     Auth,
+    Chat,
     User,
     Token,
     Verify,
