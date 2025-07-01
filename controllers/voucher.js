@@ -1,4 +1,4 @@
-const { Voucher, UserVoucher, User } = require('../database');
+const { Voucher, UserVoucher, User, Token } = require('../database');
 const authMiddleware = require('../lib/middlewares/auth');
 
 module.exports = async (req, res, next) => {
@@ -64,6 +64,37 @@ module.exports = async (req, res, next) => {
             }
             break;
             
+            case "voucher:checkReedem": {
+                await authMiddleware(req, ['user']);
+                const { code } = body;
+                let user = req.user;
+                
+                const voucher = await Voucher.findOne({ where: { code, type: 'token' } });
+                if (!voucher) throw new Error("Voucher tidak ditemukan!");
+
+                const isUsed = await UserVoucher.findOne({ where: { user_id: user.id, voucher_id: voucher.id } });
+                if (isUsed) throw new Error("Voucher sudah pernah digunakan!");
+                data = { voucher };
+            }
+            break;
+
+            case "voucher:reedem": {
+                await authMiddleware(req, ['user']);
+                const { id } = body;
+                let user = req.user;
+                const voucher = await Voucher.findOne({ where: { id, type: 'token' } });
+                if (!voucher) throw new Error("Voucher tidak ditemukan!");
+
+                const isUsed = await UserVoucher.findOne({ where: { user_id: user.id, voucher_id: voucher.id } });
+                if (isUsed) throw new Error("Voucher sudah pernah digunakan!");
+
+                await Token.create({ amount: voucher.token, is_add: true, user_id: user.id });
+                await UserVoucher.create({ user_id: user.id, voucher_id: voucher.id });
+
+                data = { isClaimed: true };
+            }
+            break;
+
             case "voucher:update": {
                 await authMiddleware(req, ['dev']);
                 const { id, code, description, date, max_claim, discount, type } = body;
