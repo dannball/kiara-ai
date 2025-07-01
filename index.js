@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const database = require('./database');
 global.dann = {};
 
+const { runOnBackground } = require('./lib/bot');
+
 const api = require('./lib/api');
 const sequelize = require('./lib/connection-db');
 
@@ -46,4 +48,5 @@ app.listen(process.env.PORT || 3000, () => {
     console.log(`The server is now running in PORT ${process.env.PORT || 3000}`);
 });
 
+runOnBackground();
 // bot(1);

@@ -27,6 +27,11 @@ System.init({
         allowNull: false,
         defaultValue: "turu",
     },
+    isOffline: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+    }
 }, {
     sequelize,
     modelName: 'systems',
