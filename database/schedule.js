@@ -18,6 +18,11 @@ Schedule.init({
         allowNull: false,
         defaultValue: false,
     },
+    is_reminded_early: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
     is_deleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
