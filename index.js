@@ -6,12 +6,15 @@ const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const database = require('./database');
+const { CronJob } = require("cron");
+
 global.dann = {};
 
-const { runOnBackground } = require('./lib/bot');
 
 const api = require('./lib/api');
+const { runOnBackground } = require('./lib/bot');
 const sequelize = require('./lib/connection-db');
+const { scheduleJob } = require('./lib/cronschedule');
 
 const app = express();
 
@@ -48,5 +51,7 @@ app.listen(process.env.PORT || 3000, () => {
     console.log(`The server is now running in PORT ${process.env.PORT || 3000}`);
 });
 
+new CronJob("* * * * *", scheduleJob, null, true, "Asia/Jakarta");
 runOnBackground();
+
 // bot(1);

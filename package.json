@@ -21,6 +21,7 @@
     "bcrypt": "^6.0.0",
     "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.7",
+    "cron": "^4.3.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mysql2": "^3.12.0",
