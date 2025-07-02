@@ -9,15 +9,7 @@ Schedule.init({
         primaryKey: true,
         autoIncrement: true,
     },
-    title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     activity: {
-        type: DataTypes.TEXT("long"),
-        allowNull: false,
-    },
-    response_ai: {
         type: DataTypes.TEXT("long"),
         allowNull: false,
     },
@@ -34,6 +26,7 @@ Schedule.init({
     date: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: 0
     },
     user_id: {
         type: DataTypes.INTEGER,
