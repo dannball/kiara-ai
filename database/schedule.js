@@ -26,7 +26,6 @@ Schedule.init({
     date: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: 0
     },
     user_id: {
         type: DataTypes.INTEGER,
