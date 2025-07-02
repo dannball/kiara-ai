@@ -19,14 +19,14 @@ module.exports = async (req, res, next) => {
                 if (title) where.title = { [Op.like]: `%${title}%` };
                 if (startDate && endDate) where.date = { [Op.between]: [new Date(startDate), new Date(endDate)] };
 
-                data = await Schedule.findAll({ where, attributes: { exclude: ['response_ai'] } });
+                data = await Schedule.findAll({ where });
               } break;
 
               case 'schedule:update': {
                 await authMiddleware(req, ['user']);
                 const user = req.user;
-                const { id, title, activity, date } = body;
-                const schedule = await Schedule.findOne({ where: { id, user_id: user.id, is_deleted: false }, attributes: { exclude: ["response_ai"] } });
+                const { id, activity, date } = body;
+                const schedule = await Schedule.findOne({ where: { id, user_id: user.id, is_deleted: false } });
                 if (!schedule) throw new Error('Schedule tidak ditemukan');
 
                 Object.assign(schedule, { title, activity, date });
@@ -48,11 +48,11 @@ module.exports = async (req, res, next) => {
 
               case 'schedule:devList': {
                 await authMiddleware(req, ['dev']);
-                const { username, title, startDate, endDate } = body;
+                const { username, activity, startDate, endDate } = body;
                 const where = { is_deleted: false };
                 const include = [{ model: User, attributes: ['id', 'username'] }];
         
-                if (title) where.title = { [Op.like]: `%${title}%` };
+                if (activity) where.activity = { [Op.like]: `%${activity}%` };
                 if (startDate && endDate) where.date = { [Op.between]: [new Date(startDate), new Date(endDate)] };
                 if (username) include[0].where = { username };
 
