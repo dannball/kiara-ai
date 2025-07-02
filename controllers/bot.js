@@ -7,6 +7,7 @@ module.exports = async (req, res, next) => {
         let { params, body } = req;
         if (!body) return next();
         let command = `${params.type}:${params.cmd}`;
+        console.log(command);
         let data = null;
 
         switch (command) {
@@ -84,7 +85,7 @@ module.exports = async (req, res, next) => {
             } break;
 
             default:
-                throw new Error("API tidak ada! (404)");
+                return next();
         }
         return res.status(200).json({ data });
     } catch (error) {
@@ -96,6 +97,6 @@ module.exports = async (req, res, next) => {
         } else {
             res.status(500).json({ error: "Internal server error!" })
         }
-        console.log(error);
+        // console.log(error);
     }
 }

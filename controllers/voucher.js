@@ -200,7 +200,7 @@ module.exports = async (req, res, next) => {
             break;
             
         default:
-            throw new Error("API tidak ada! (404)");
+            return next();
         }
         return res.status(200).json({ data });
     } catch (error) {
