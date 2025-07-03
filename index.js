@@ -7,6 +7,9 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const database = require('./database');
 const { CronJob } = require("cron");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
 
 global.dann = {};
 
@@ -15,6 +18,7 @@ const api = require('./lib/api');
 const { runOnBackground } = require('./lib/bot');
 const sequelize = require('./lib/connection-db');
 const { scheduleJob } = require('./lib/cronschedule');
+const { createAccountDeveloper } = require('./lib/helper');
 
 const app = express();
 
@@ -23,6 +27,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public/js')));
 app.use(express.static(path.join(__dirname, 'public/assets')));
 app.use(express.static(path.join(__dirname, 'public/css')));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(api);
 
@@ -53,5 +58,5 @@ app.listen(process.env.PORT || 3000, () => {
 
 new CronJob("* * * * *", scheduleJob, null, true, "Asia/Jakarta");
 runOnBackground();
-
+createAccountDeveloper();
 // bot(1);

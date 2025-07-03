@@ -12,6 +12,12 @@ module.exports = async (req, res, next) => {
 
         switch (command) {
 
+            case 'bot:list': {
+                await authMiddleware(req, ['dev']);
+                const result = await System.findAll({ where: {}, attributes: { exclude: ["pairCode"] } });
+                data = result.map(d => d.toJSON());
+            } break;
+
             case 'bot:create': {
                 await authMiddleware(req, ['dev']);
                 let { botNumber, systemName } = body;
@@ -28,6 +34,7 @@ module.exports = async (req, res, next) => {
                 if (!result.botNumber) throw new Error("Bot number masih kosong!");
                 if (result.status == 'siap' && !override) throw new Error("Bot sebelumnya udah idup");
                 result.isOffline = false;
+                result.pairCode = "";
                 await result.save();
                 await main(result.id, true);
                 data = { started: true };
@@ -39,7 +46,7 @@ module.exports = async (req, res, next) => {
                 let result = await System.findOne({ where: { id: systemId }});
                 if (!result?.botNumber) throw new Error("Bot number masih kosong!");
                 let conn = dann[result.id]?.conn;
-                if (!conn?.ws?.socket || ['berak', 'turu', 'ban'].includes(result.status)) throw new Error("Bot sebelumnya udah mati");
+                if (['berak', 'turu', 'ban'].includes(result.status)) throw new Error("Bot sebelumnya udah mati");
                 result.isOffline = true;
                 await result.save();
                 try { await conn.end() } catch (e) {}

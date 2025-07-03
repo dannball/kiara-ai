@@ -1,0 +1,1361 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "KIARA API Documentation",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login pengguna",
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": {
+                    "auth": "KIARA_xxx",
+                    "is_verify": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "summary": "Registrasi pengguna baru",
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": 1
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "confirmPassword": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "email",
+                  "password",
+                  "confirmPassword"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/verify": {
+      "post": {
+        "summary": "Verifikasi email menggunakan OTP",
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": {
+                    "is_verify": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "otp": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "otp"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bot/list": {
+      "post": {
+        "summary": "List semua bot",
+        "tags": [
+          "Bot"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bot/create": {
+      "post": {
+        "summary": "Buat bot baru",
+        "tags": [
+          "Bot"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "botNumber": {
+                    "type": "string"
+                  },
+                  "systemName": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "botNumber",
+                  "systemName"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bot/start": {
+      "post": {
+        "summary": "Menyalakan bot",
+        "tags": [
+          "Bot"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "systemId": {
+                    "type": "integer"
+                  },
+                  "override": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "systemId",
+                  "override"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bot/stop": {
+      "post": {
+        "summary": "Mematikan bot",
+        "tags": [
+          "Bot"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "systemId": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "systemId"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bot/getpaircode": {
+      "post": {
+        "summary": "Ambil kode pair",
+        "tags": [
+          "Bot"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "systemId": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "systemId"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bot/getstatus": {
+      "post": {
+        "summary": "Ambil status bot",
+        "tags": [
+          "Bot"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "systemId": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "systemId"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bot/delete": {
+      "post": {
+        "summary": "Hapus bot",
+        "tags": [
+          "Bot"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "systemId": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "systemId"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/bot/update": {
+      "post": {
+        "summary": "Update bot",
+        "tags": [
+          "Bot"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "systemId": {
+                    "type": "integer"
+                  },
+                  "botNumber": {
+                    "type": "string"
+                  },
+                  "systemName": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "systemId",
+                  "botNumber",
+                  "systemName"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/package/findAll": {
+      "post": {
+        "summary": "Ambil semua paket",
+        "tags": [
+          "Package"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/package/create": {
+      "post": {
+        "summary": "Buat paket baru",
+        "tags": [
+          "Package"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "integer"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "token",
+                  "price",
+                  "title",
+                  "description"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/package/update": {
+      "post": {
+        "summary": "Update paket",
+        "tags": [
+          "Package"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "token": {
+                    "type": "integer"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "token",
+                  "price",
+                  "title",
+                  "description"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/package/delete": {
+      "post": {
+        "summary": "Hapus paket",
+        "tags": [
+          "Package"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/token/increment": {
+      "post": {
+        "summary": "Tambah token ke user",
+        "tags": [
+          "Token"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer"
+                  },
+                  "amountToken": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "userId",
+                  "amountToken"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/token/decrement": {
+      "post": {
+        "summary": "Kurangi token user",
+        "tags": [
+          "Token"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer"
+                  },
+                  "amountToken": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "userId",
+                  "amountToken"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/token/order": {
+      "post": {
+        "summary": "Beli token dari package",
+        "tags": [
+          "Token"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "packageId": {
+                    "type": "integer"
+                  },
+                  "voucherCode": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "packageId",
+                  "voucherCode",
+                  "amount"
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/token/used": {
+      "post": {
+        "summary": "Cek statistik token user",
+        "tags": [
+          "Token"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/token/usedChart": {
+      "post": {
+        "summary": "Data grafik pemakaian token user",
+        "tags": [
+          "Token"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/token/devList": {
+      "post": {
+        "summary": "Daftar token semua user",
+        "tags": [
+          "Token"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/token/devChart": {
+      "post": {
+        "summary": "Grafik pemakaian token semua user",
+        "tags": [
+          "Token"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/user/me": {
+  "post": {
+    "summary": "Ambil data user yang sedang login",
+    "tags": ["User"],
+    "responses": {
+      "200": {
+        "description": "Berhasil ambil data user"
+      }
+    },
+    "security": [{ "BearerAuth": [] }]
+  }
+},
+"/api/user/update": {
+  "post": {
+    "summary": "Update profil user",
+    "tags": ["User"],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "username": { "type": "string" },
+              "password": { "type": "string" },
+              "whatsapp": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Berhasil update data user"
+      }
+    },
+    "security": [{ "BearerAuth": [] }]
+  }
+},
+"/api/user/forgotPassword": {
+  "post": {
+    "summary": "Request reset password dengan OTP",
+    "tags": ["User"],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "email": { "type": "string" }
+            },
+            "required": ["email"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "OTP terkirim ke email"
+      }
+    }
+  }
+},
+"/api/user/verifyReset": {
+  "post": {
+    "summary": "Verifikasi OTP reset password",
+    "tags": ["User"],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "email": { "type": "string" },
+              "otp": { "type": "string" }
+            },
+            "required": ["email", "otp"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "OTP valid"
+      }
+    }
+  }
+},
+"/api/user/resetPassword": {
+  "post": {
+    "summary": "Reset password dengan OTP",
+    "tags": ["User"],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "email": { "type": "string" },
+              "otp": { "type": "string" },
+              "newPassword": { "type": "string" }
+            },
+            "required": ["email", "otp", "newPassword"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Password berhasil diperbarui"
+      }
+    }
+  }
+},
+
+    "/api/schedule/list": {
+      "post": {
+        "summary": "List schedule",
+        "tags": [
+          "Schedule"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "data": "result"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/schedule/update": {
+      "post": {
+        "summary": "Update schedule user",
+        "tags": ["Schedule"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer" },
+                  "activity": { "type": "string" },
+                  "date": { "type": "string", "format": "date-time" }
+                },
+                "required": ["id", "activity", "date"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Berhasil update schedule"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/schedule/delete": {
+      "post": {
+        "summary": "Hapus schedule user",
+        "tags": ["Schedule"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer" }
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Berhasil menghapus schedule"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/schedule/devList": {
+      "post": {
+        "summary": "List semua schedule (admin/dev)",
+        "tags": ["Schedule"],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "activity": { "type": "string" },
+                  "startDate": { "type": "string", "format": "date" },
+                  "endDate": { "type": "string", "format": "date" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Berhasil ambil data schedule semua user"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/schedule/chart": {
+      "post": {
+        "summary": "Statistik schedule teringat vs tidak",
+        "tags": ["Schedule"],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": { "type": "string", "format": "date" },
+                  "endDate": { "type": "string", "format": "date" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Statistik berhasil didapatkan"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/voucher/check": {
+      "post": {
+        "summary": "Cek validitas voucher",
+        "tags": ["Voucher"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": { "type": "string" }
+                },
+                "required": ["code"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voucher valid"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/voucher/add": {
+      "post": {
+        "summary": "Tambah voucher baru",
+        "tags": ["Voucher"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": { "type": "string" },
+                  "description": { "type": "string" },
+                  "date": { "type": "string", "format": "date" },
+                  "max_claim": { "type": "integer" },
+                  "discount": { "type": "integer" },
+                  "type": { "type": "string" }
+                },
+                "required": ["code", "discount", "type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voucher berhasil ditambahkan"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/voucher/reedem": {
+      "post": {
+        "summary": "Reedem voucher token",
+        "tags": ["Voucher"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer" }
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voucher berhasil direedem"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/voucher/list": {
+      "post": {
+        "summary": "List semua voucher",
+        "tags": ["Voucher"],
+        "responses": {
+          "200": {
+            "description": "Daftar voucher"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/voucher/update": {
+      "post": {
+        "summary": "Update voucher",
+        "tags": ["Voucher"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer" },
+                  "code": { "type": "string" },
+                  "description": { "type": "string" },
+                  "date": { "type": "string", "format": "date" },
+                  "max_claim": { "type": "integer" },
+                  "discount": { "type": "integer" },
+                  "type": { "type": "string" }
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voucher berhasil diperbarui"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    },
+    "/api/voucher/delete": {
+      "post": {
+        "summary": "Hapus voucher",
+        "tags": ["Voucher"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer" }
+                },
+                "required": ["id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voucher berhasil dihapus"
+          }
+        },
+        "security": [{ "BearerAuth": [] }]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Autentikasi dan verifikasi pengguna"
+    },
+    {
+      "name": "Bot",
+      "description": "Manajemen dan kontrol sistem bot"
+    },
+    {
+      "name": "Package",
+      "description": "Manajemen paket token"
+    },
+    {
+      "name": "Token",
+      "description": "Manajemen token & pembelian"
+    },
+    {
+      "name": "Schedule",
+      "description": "Manajemen schedule"
+    },
+    {
+      "name": "User",
+      "description": "Manajemen User / pengguna"
+    },
+    {
+      "name": "Voucher",
+      "description": "Manajemen Voucher"
+    }
+  ]
+}

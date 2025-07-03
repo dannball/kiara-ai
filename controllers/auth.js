@@ -89,7 +89,7 @@ module.exports = async (req, res, next) => {
                 }
 
                 auth = await Auth.create({
-                    key: generateRandomId(64),
+                    key: generateRandomId(192),
                     expired_time: Date.now() + (1 * 24 * 60 * 60 * 1000),
                     user_id: user.id,
                     validity_data: JSON.stringify({ useragent })

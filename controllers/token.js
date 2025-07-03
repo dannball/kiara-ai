@@ -209,6 +209,7 @@ module.exports = async (req, res, next) => {
                 return next();
         }
         return res.status(200).json({ data });
+
     } catch (error) {
         if (typeof error?.message === "string" || typeof error === "string") {
             error = error.message || error;
